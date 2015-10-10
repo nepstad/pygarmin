@@ -67,7 +67,7 @@ axes[1,0].plot(df['Mins'],df['Speed'],linewidth=0.8, alpha=0.5)
 axes[1,0].set_ylabel('Speed [km/h]')
 #axes[1,1].hist(df['Speed'])
 
-axes[1,1].scatter(df['Slope'],df['Speed'],c=df['HeartRateBpm'],s=60,vmin=50,vmax=200,marker='.',alpha=0.5)
+axes[1,1].scatter(df['Slope'],df['Speed'],c=df['HeartRateBpm'],s=60,vmin=50,vmax=200,marker='.',alpha=1)
 axes[1,1].set_xlabel('Slope')
 axes[1,1].set_ylabel('Speed')
 statsbox('Speed',[1,1])
