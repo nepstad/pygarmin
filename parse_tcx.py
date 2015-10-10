@@ -37,6 +37,8 @@ def parse_cycling(root, garmin_ns):
                 continue
             elif 'HeartRateBpm' in name:
                 row_data[name] = float(c.getchildren()[0].text)
+            elif 'AltitudeMeters' in name:
+                row_data[name] = float(c.text)
             else:
                 row_data[name] = float(c.text)
         row = pd.Series(row_data)
@@ -55,9 +57,13 @@ def parse_running(root, garmin_ns):
             if 'Time' in name:
                 row_data[name] = pd.to_datetime(c.text)
             elif 'Position' in name:
-                continue
+                tpx = c.getchildren()[0]
+                row_data['Latitude'] = float(c.getchildren()[0].text)
+                row_data['Longitude'] = float(c.getchildren()[1].text)
             elif 'HeartRateBpm' in name:
                 row_data[name] = float(c.getchildren()[0].text)
+            elif 'AltitudeMeters' in name:
+                row_data[name] = float(c.text)
             elif 'Extensions' in name:
                 tpx = c.getchildren()[0]
                 row_data['Cadence'] = 2*float(tpx[0].text)
