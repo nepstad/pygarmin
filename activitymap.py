@@ -49,7 +49,11 @@ ax.add_image(tiler, 15)
 im = ax.scatter(df['Longitude'], df['Latitude'], c=df['Speed'],
         transform=ccrs.Geodetic(), s=40, edgecolor='none',
         cmap=plt.cm.hot_r)
+ax.set_title('{0:.2f} km, {1:.1f} min'.format(
+    df['DistanceMeters'].max()/1000,
+    df['SecondsElapsed'].max()/60))
 cbar = plt.colorbar(im, shrink=.9)
 cbar.set_label('Speed [km/h]')
+plt.tight_layout()
 plt.savefig(basename + '-mapspeed.png', dpi=200)
 plt.close()
