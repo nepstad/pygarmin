@@ -47,9 +47,9 @@ ax.add_image(tiler, 15)
 
 #Plot activity positions on map, color by speed
 im = ax.scatter(df['Longitude'], df['Latitude'], c=df['Speed'],
-        transform=ccrs.Geodetic(), s=20, edgecolor='none',
+        transform=ccrs.Geodetic(), s=40, edgecolor='none',
         cmap=plt.cm.hot_r)
 cbar = plt.colorbar(im, shrink=.9)
-cbar.set_label('Speed [m/s]')
+cbar.set_label('Speed [km/h]')
 plt.savefig(basename + '-mapspeed.png', dpi=200)
 plt.close()
