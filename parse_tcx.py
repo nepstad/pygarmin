@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-"""
-"""
+'''
+Partial parser for Garmin Connect tcx files. Returns a Pandas DataFrame.
+'''
+import os
 import sys
 import lxml.etree
 import numpy as np
@@ -101,6 +103,24 @@ def load_tcx_data(filename):
     df['Slope'] = slope
 
     return df
+
+
+def get_activity_data(filename):
+    # Load TCX file activity data.
+    # Then store it as a HDF5 file.
+    # If HDF5 file already exists, load data from there.
+    basename = filename[:-4]
+    filename_df = basename + '.h5'
+    if os.path.exists(filename_df):
+        print('Loading data from HDF5 file')
+        df = pd.read_hdf(filename_df, 'ActivityData')
+    else:
+        df = load_tcx_data(filename)
+        print('Storing data to HDF5 file: ', filename_df)
+        df.to_hdf(filename_df, 'ActivityData')
+
+    return df
+
 
 if __name__ == '__main__':
     df = load_tcx_data(sys.argv[1])
