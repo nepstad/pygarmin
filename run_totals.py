@@ -118,6 +118,7 @@ axes[3,0].scatter(all_slope,all_speed,c=all_HR,s=80,vmin=50,vmax=200,marker='.',
 axes[3,0].set_xlabel('Slope')
 axes[3,0].set_ylabel('Speed')
 axes[3,0].set_ylim([MIN_SPEED,MAX_SPEED])
+axes[3,0].set_xlim([-45,45])
 
 for i in range(4):
     axes[i,1].set_axis_off()
