@@ -14,6 +14,18 @@ import datetime
 from ipdb import set_trace as debug
 import glob
 
+def statsbox(var,ax):
+    #VAR=df[var]
+    VAR=var[var>0]
+    #VAR=np.ma.masked_equal(VAR,0)
+    VARmean = VAR.mean()
+    VARmin = VAR.min()
+    VARmax = VAR.max()
+    textstr = 'Min=%.2f\nMean=%.2f\nMax=%.2f'%(VARmin, VARmean, VARmax)
+    props = dict(boxstyle='round', alpha=0.5, color='w')
+    axes[ax[0],ax[1]].text(1.1, 0.5, textstr, transform=axes[ax[0],ax[1]].transAxes, fontsize=10, verticalalignment='center', bbox=props)
+
+
 pd.options.display.mpl_style = 'default'
 
 # Path to tcx directory assumed to be passed as cmd line argument
@@ -88,21 +100,27 @@ all_HR=all_HR[all_speed<MAX_SPEED]
 all_speed=all_speed[all_speed<MAX_SPEED]
 
 plt.close("all")
-fig, axes = plt.subplots(4, 2, figsize=(15, 10))
+fig, axes = plt.subplots(4, 2, figsize=(10, 10))
 
 axes[0,0].hist(all_HR,bins=np.linspace(all_HR.min(),all_HR.max(),60))
 axes[0,0].set_xlabel('Heart rate [bpm]')
+statsbox(all_HR,[0,0])
 
-axes[1,0].scatter(all_slope,all_speed,c=all_HR,s=80,vmin=50,vmax=200,marker='.',alpha=0.1)
-axes[1,0].set_xlabel('Slope')
-axes[1,0].set_ylabel('Speed')
-axes[1,0].set_ylim([MIN_SPEED,MAX_SPEED])
+axes[1,0].hist(all_cadence,bins=np.linspace(all_cadence.min(),all_cadence.max(),50))
+axes[1,0].set_xlabel('Cadence')
+statsbox(all_cadence,[1,0])
 
-axes[2,0].hist(all_cadence,bins=np.linspace(all_cadence.min(),all_cadence.max(),50))
-axes[2,0].set_xlabel('Cadence')
+axes[2,0].hist(all_speed,bins=np.linspace(MIN_SPEED,MAX_SPEED,50))
+axes[2,0].set_xlabel('Speed')
+statsbox(all_speed,[2,0])
 
-axes[3,0].hist(all_speed,bins=np.linspace(MIN_SPEED,MAX_SPEED,50))
-axes[3,0].set_xlabel('Speed')
+axes[3,0].scatter(all_slope,all_speed,c=all_HR,s=80,vmin=50,vmax=200,marker='.',alpha=0.1)
+axes[3,0].set_xlabel('Slope')
+axes[3,0].set_ylabel('Speed')
+axes[3,0].set_ylim([MIN_SPEED,MAX_SPEED])
+
+for i in range(4):
+    axes[i,1].set_axis_off()
 
 plt.savefig('/home/emlynd/Desktop/test.png')
 plt.close()
