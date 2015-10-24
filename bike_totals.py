@@ -25,7 +25,6 @@ def statsbox(var,ax):
     props = dict(boxstyle='round', alpha=0.5, color='w')
     axes[ax[0],ax[1]].text(1.1, 0.5, textstr, transform=axes[ax[0],ax[1]].transAxes, fontsize=10, verticalalignment='center', bbox=props)
 
-
 pd.options.display.mpl_style = 'default'
 
 # Path to tcx directory assumed to be passed as cmd line argument
@@ -34,7 +33,7 @@ outpath = sys.argv[2]
 datefilt = sys.argv[3]
 
 # list tcx files
-FileNames=glob.glob(os.path.join(TCXDirectory,datefilt + '**unning*.tcx'))
+FileNames=glob.glob(os.path.join(TCXDirectory,datefilt + '*Cycling*.tcx'))
 
 print(len(FileNames),' Files found')
 
@@ -53,14 +52,6 @@ for F in range(len(FileNames)):
     # Then store it as a HDF5 file.
     # If HDF5 file already exists, load data from there.
     basenameIN = os.path.basename(filename)
-    #if os.path.basename(filename)=='2015-08-24_Trondheim Trail Running_Running.tcx':
-    #    continue
-    #if os.path.basename(filename)=='2015-10-03_Trondheim Trail Running_Running.tcx':
-    #    continue
-    #if os.path.basename(filename)=='2015-05-23_05-23-2015 Norway_Running.tcx':
-    #    continue
-    #if os.path.basename(filename)=='2015-07-17_Geiranger Paddling_Running.tcx':
-    #    continue
 
     print(F)
     print(filename)
@@ -158,7 +149,7 @@ textstr = 'Summary for: ' + datefilt + '\n\n%0.0f activities totalling %0.2f hrs
 props = dict(boxstyle='round', alpha=0.5, color='w')
 axes[0,1].text(0.3, 0.5, textstr, transform=axes[0,1].transAxes, fontsize=12,verticalalignment='center', bbox=props, fontweight='bold',horizontalalignment='left')
 
-OutputFileName=os.path.join(outpath,'Run-Summary-' + datefilt + '.png')
+OutputFileName=os.path.join(outpath,'Bike-Summary-' + datefilt + '.png')
 
 plt.savefig(OutputFileName)
 plt.close()
