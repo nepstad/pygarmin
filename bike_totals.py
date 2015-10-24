@@ -33,7 +33,7 @@ outpath = sys.argv[2]
 datefilt = sys.argv[3]
 
 # list tcx files
-FileNames=glob.glob(os.path.join(TCXDirectory,datefilt + '*Cycling*.tcx'))
+FileNames=glob.glob(os.path.join(TCXDirectory,datefilt + '*Cycling_Cycling*.tcx'))
 
 print(len(FileNames),' Files found')
 
@@ -104,8 +104,8 @@ all_speed=all_speed[all_HR>0]
 all_cadence=all_cadence[all_HR>0]
 all_HR=all_HR[all_HR>0]
 
-MIN_SPEED=6
-MAX_SPEED=20
+MIN_SPEED=4
+MAX_SPEED=70
 
 all_slope=all_slope[all_speed>MIN_SPEED]
 all_cadence=all_cadence[all_speed>MIN_SPEED]
@@ -118,29 +118,24 @@ all_HR=all_HR[all_speed<MAX_SPEED]
 all_speed=all_speed[all_speed<MAX_SPEED]
 
 plt.close("all")
-fig, axes = plt.subplots(4, 2, figsize=(10, 10))
+fig, axes = plt.subplots(3, 2, figsize=(10, 10))
 
 axes[0,0].hist(all_HR,bins=np.linspace(50,200,70))
 axes[0,0].set_xlabel('Heart rate [bpm]')
 axes[0,0].set_xlim([50,200])
 statsbox(all_HR,[0,0])
 
-axes[1,0].hist(all_cadence,bins=np.linspace(50,200,60))
-axes[1,0].set_xlabel('Cadence')
-statsbox(all_cadence,[1,0])
-axes[1,0].set_xlim([60,200])
+axes[1,0].hist(all_speed,bins=np.linspace(MIN_SPEED,MAX_SPEED,50))
+axes[1,0].set_xlabel('Speed')
+statsbox(all_speed,[1,0])
 
-axes[2,0].hist(all_speed,bins=np.linspace(MIN_SPEED,MAX_SPEED,50))
-axes[2,0].set_xlabel('Speed')
-statsbox(all_speed,[2,0])
+axes[2,0].scatter(all_slope,all_speed,c=all_HR,s=100,vmin=50,vmax=200,marker='.',alpha=0.1)
+axes[2,0].set_xlabel('Slope')
+axes[2,0].set_ylabel('Speed')
+axes[2,0].set_ylim([MIN_SPEED,MAX_SPEED])
+axes[2,0].set_xlim([-45,45])
 
-axes[3,0].scatter(all_slope,all_speed,c=all_HR,s=100,vmin=50,vmax=200,marker='.',alpha=0.1)
-axes[3,0].set_xlabel('Slope')
-axes[3,0].set_ylabel('Speed')
-axes[3,0].set_ylim([MIN_SPEED,MAX_SPEED])
-axes[3,0].set_xlim([-45,45])
-
-for i in range(4):
+for i in range(3):
     axes[i,1].set_axis_off()
 
 print(c)
