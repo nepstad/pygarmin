@@ -108,7 +108,6 @@ ElGain=ElGain.sum()
 ElLoss=np.abs(Eldiff[Eldiff<0])
 ElLoss=ElLoss.sum()
 
-
 textstr = 'Total time: %0.0f mins.\nElevation gain: %0.0f m\nElevation loss: %0.0f m'%(Duration, ElGain, ElLoss)
 props = dict(boxstyle='round', alpha=0.5, color='w')
 axes[2,2].text(0.5, 0.5, textstr, transform=axes[2,2].transAxes, fontsize=12,
